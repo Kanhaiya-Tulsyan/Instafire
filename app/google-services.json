@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "996108156221",
+    "project_id": "instafire-b5de3",
+    "storage_bucket": "instafire-b5de3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996108156221:android:9374f73719224fc52c9954",
+        "android_client_info": {
+          "package_name": "com.example.instafire"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "996108156221-fd4rp86bkob2jrnm86feiurvm3g0t7uh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWczzm72WtHFCNvnco2fGNE8yPKdjNsTw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "996108156221-fd4rp86bkob2jrnm86feiurvm3g0t7uh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
