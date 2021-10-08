@@ -8,15 +8,19 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instafire.model.Post
+import com.example.instafire.model.User
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_post.*
 
 private const val TAG="PostActivity"
-class PostActivity : AppCompatActivity() {
+private const val EXTRA_USERNAME="EXTRA_USERNAME"
+open class PostActivity : AppCompatActivity() {
     private lateinit var firestoreDb: FirebaseFirestore
     private lateinit var posts: MutableList<Post>
     private lateinit var adapter: PostsAdapter
+    private var signedInUser: User?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,9 +32,29 @@ class PostActivity : AppCompatActivity() {
 
 
         firestoreDb= FirebaseFirestore.getInstance()
-        val postsReference= firestoreDb.collection("posts")
+        firestoreDb.collection("users").document(FirebaseAuth.getInstance().currentUser?.uid as String)
+            .get()
+            .addOnSuccessListener { userSnapshot->
+                signedInUser=userSnapshot.toObject(User::class.java)
+                Log.i(TAG,"signed in user: $signedInUser")
+            }
+            .addOnFailureListener{  exception->
+                Log.i(TAG,"Failed to Query",exception)
+            }
+
+
+
+
+        var postsReference= firestoreDb.collection("posts")
             .limit(20)
             .orderBy("creation_time_ms",Query.Direction.DESCENDING)
+
+        val username=intent.getStringExtra(EXTRA_USERNAME)
+        if(username != null)
+        {
+            postsReference=postsReference.whereEqualTo("user.username",username)
+        }
+
 
         postsReference.addSnapshotListener { value, error ->
             if(value==null || error!= null)
@@ -58,6 +82,7 @@ class PostActivity : AppCompatActivity() {
        if(item.itemId==R.id.menu_profile)
        {
            val intent= Intent(this,ProfileActivity::class.java)
+           intent.putExtra(EXTRA_USERNAME,signedInUser?.username)
            startActivity(intent)
        }
         return super.onOptionsItemSelected(item)
