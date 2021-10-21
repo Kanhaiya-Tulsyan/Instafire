@@ -15,7 +15,7 @@ import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_post.*
 
 private const val TAG="PostActivity"
-private const val EXTRA_USERNAME="EXTRA_USERNAME"
+const val EXTRA_USERNAME="EXTRA_USERNAME"
 open class PostActivity : AppCompatActivity() {
     private lateinit var firestoreDb: FirebaseFirestore
     private lateinit var posts: MutableList<Post>
